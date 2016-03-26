@@ -1,23 +1,3 @@
-function get_git_status -d "Gets the current git status"
-  if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
-    set -l dirty (command git status -s --ignore-submodules=dirty | wc -l | sed -e 's/^ *//' -e 's/ *$//' 2> /dev/null)
-    set -l ref (command git describe --tags --exact-match ^/dev/null ; or command git symbolic-ref --short HEAD 2> /dev/null ; or command git rev-parse --short HEAD 2> /dev/null)
-
-    if [ "$dirty" != "0" ]
-      set file_or_files "file"
-
-      if [ "$dirty" != "1" ]
-        set file_or_files "files"
-        end
-
-      segment_right " $dirty changed $file_or_files " white red
-      end
-
-    segment_right " $ref " white 27ae60
-    segment_close
-   end
-end
-
 function show_result -d "Shows the result of the previous command, or the duration if successful"
   set -l status_copy $status
 
@@ -43,7 +23,7 @@ function show_result -d "Shows the result of the previous command, or the durati
   end
 end
 
-function prompt_git -d "Display the current git state"
+function show_git -d "Display the current git state"
   set -l ref
   if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
     set ref (command git symbolic-ref HEAD 2> /dev/null)
@@ -102,11 +82,8 @@ function prompt_git -d "Display the current git state"
 end
 
 function fish_right_prompt -d "Prints right prompt"
-  # get_git_status
-
   show_result
+  show_git
 
-  prompt_git
   segment_close
-
 end
