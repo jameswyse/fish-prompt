@@ -11,14 +11,14 @@ function show_result -d "Shows the result of the previous command, or the durati
             set indicator " $status_copy "
         end
 
-        segment_right " $duration " white 2980b9
+        segment_right white 2980b9 " $duration "
         # segment_close
     end
   else if test $status_copy -ne 0
-    segment_right " $status_copy " white f00
+    segment_right white f00 " $status_copy "
     # segment_close
   else
-    segment_right (date +%H:%M)" " eee 2980b9
+    segment_right eee 2980b9 (date +%H:%M)" "
     # segment_close
   end
 end
@@ -75,8 +75,8 @@ function show_git -d "Display the current git state"
         set PROMPT "$branch $dirty"
       end
     end
-    segment_right " $PROMPT " white 27ae60
-    segment_right " $dirty_files " 2c3e50 white
+    segment_right white 27ae60 " $PROMPT "
+    segment_right 2c3e50 white " $dirty_files "
 
   end
 end
